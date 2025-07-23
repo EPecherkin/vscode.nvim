@@ -161,8 +161,14 @@ colors.get_colors = function()
     mycolors.vscUiOrange = '#f28b25'
     mycolors.vscPopupHighlightLightBlue = '#d7eafe'
 
-    -- Extend the colors with overrides passed by `color_overrides`
+    -- Extend the colors with overrides passed by `color_overrides`, `dark_color_overrides` and `light_color_overrides`
     local config = require('vscode.config')
+    if vim.o.background == 'dark' and config.opts.dark_color_overrides then
+        mycolors = vim.tbl_extend('force', mycolors, config.opts.dark_color_overrides)
+    end
+    if vim.o.background == 'light' and config.opts.light_color_overrides then
+        mycolors = vim.tbl_extend('force', mycolors, config.opts.light_color_overrides)
+    end
     if config.opts.color_overrides then
         mycolors = vim.tbl_extend('force', mycolors, config.opts.color_overrides)
     end
